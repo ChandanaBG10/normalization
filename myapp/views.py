@@ -153,31 +153,68 @@ def upload_travel(request):
 
 def upload_page(request):
 
+    error = None
+
     if request.method == 'POST':
 
-        file = request.FILES.get('file')
+        try:
 
-        source_type = request.POST.get('source_type')
+            file = request.FILES.get('file')
 
-        if file:
+            source_type = request.POST.get('source_type')
 
-            if source_type == 'sap':
+            if not file:
 
-                process_sap_file(file)
+                error = "Please select a file."
 
-            elif source_type == 'utility':
+            elif not file.name.endswith('.csv'):
 
-                process_utility_file(file)
+                error = "Only CSV files are allowed."
 
-            elif source_type == 'travel':
+            else:
 
-                process_travel_file(file)
+                if source_type == 'sap':
 
-            return redirect('/dashboard/')
+                    process_sap_file(file)
+
+                elif source_type == 'utility':
+
+                    process_utility_file(file)
+
+                elif source_type == 'travel':
+
+                    process_travel_file(file)
+
+                else:
+
+                    error = "Invalid source type selected."
+
+                if not error:
+
+                    return redirect('/dashboard/')
+
+        except KeyError:
+
+            error = (
+                "Wrong CSV format for selected source type."
+            )
+
+        except ValueError as e:
+
+            error = str(e)
+
+        except Exception:
+
+            error = (
+                "Something went wrong while uploading file."
+            )
 
     return render(
         request,
-        'myapp/upload.html'
+        'myapp/upload.html',
+        {
+            'error': error
+        }
     )
 
 
