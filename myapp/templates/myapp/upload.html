@@ -1,0 +1,36 @@
+{% extends 'myapp/base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Upload CSV</h2>
+
+<form method="POST" enctype="multipart/form-data">
+
+    {% csrf_token %}
+
+    <select
+        name="source_type"
+        class="form-control mb-3"
+    >
+
+        <option value="sap">SAP</option>
+
+        <option value="utility">Utility</option>
+
+        <option value="travel">Travel</option>
+
+    </select>
+
+    <input
+        type="file"
+        name="file"
+        class="form-control mb-3"
+    >
+
+    <button class="btn btn-primary">
+        Upload
+    </button>
+
+</form>
+
+{% endblock %}

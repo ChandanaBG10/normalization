@@ -1,0 +1,5 @@
+employee,travel_type,from_airport,to_airport,distance_km
+John,Flight,BLR,DEL,1700
+Alice,Flight,BOM,DXB,1900
+David,Hotel,Mumbai,Mumbai,3
+Emma,Cab,Bangalore,Airport,45
